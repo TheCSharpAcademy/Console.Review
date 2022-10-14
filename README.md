@@ -1,6 +1,5 @@
 # Code Review Checklist
 
-Setup
 1. Log into your github account
 2. Create a fork of this project
 3. Clone your fork into your machine
