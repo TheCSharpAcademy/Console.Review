@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Coding Tracker": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\Harkema\\source\\repos\\Coding-Tracker"
+    }
+  }
+}
