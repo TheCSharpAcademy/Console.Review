@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Coding_Tracker.Controller;
 
 namespace Coding_Tracker
 {
@@ -6,10 +7,38 @@ namespace Coding_Tracker
     {
         private static DateTime time;
 
-        internal static string MenuItemSelected()
+        internal static void MenuItemSelected()
         {
-            Visualization.TableVisualisationEngine.MenuOptions();
-            return Console.ReadLine().Trim().ToLower(); 
+            bool systemRunning = true;
+
+            do
+            {
+                Visualization.TableVisualisationEngine.MenuOptions();
+                switch (Console.ReadLine().Trim().ToLower())
+                {
+                    case "v":
+                        CodingController.ViewControl();
+                        break;
+                    case "i":
+                        CodingController.InsertControl();
+                        break;
+                    case "e":
+                        CodingController.UpdateControl();
+                        break;
+                    case "d":
+                        CodingController.DeleteControl();
+                        break;
+                    case "q":
+                        systemRunning = false;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid Input.Press enter to redo.");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+                }
+
+            } while (systemRunning);
         }
 
         internal static DateTime GetTime(string message, string format)
@@ -25,8 +54,7 @@ namespace Coding_Tracker
                 {
                     time = DateTime.ParseExact(timeString, format, provider);
                     Console.WriteLine($"{timeString} converts to {time}.");
-                    timeIsExtracted = true;
-                    
+                    timeIsExtracted = true;                    
                 }
                 catch (FormatException)
                 {
@@ -35,9 +63,8 @@ namespace Coding_Tracker
                     Console.Clear();
                 }
             }while (!timeIsExtracted);
+
             return time;
-
-
         }
 
         internal static int GetItemById(string message)

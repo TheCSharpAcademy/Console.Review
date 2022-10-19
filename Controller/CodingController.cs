@@ -5,39 +5,10 @@
         internal static List<CodingSession> table = new List<CodingSession>();
 
         internal static void MenuControl()
-        {
-            bool systemRunning = true;
+        {            
             DatabaseAccess.CreateTable();
             Visualization.TableVisualisationEngine.Welcome();
-
-            do
-            {
-                switch (UserInput.MenuItemSelected())
-                {
-                    case "v":
-                        ViewControl();
-                        break;
-                    case "i":
-                        InsertControl();
-                        break;
-                    case "e":
-                        UpdateControl();
-                        break;
-                    case "d":
-                        DeleteControl();
-                        break;
-                    case "q":
-                        systemRunning = false;
-                        break;
-                    default:
-                        Console.WriteLine("Invalid Input.Press enter to redo.");
-                        Console.ReadLine();
-                        Console.Clear();
-                        break;
-                }
-
-            } while (systemRunning);
-            
+            UserInput.MenuItemSelected();           
         }
 
         internal static void InsertControl()
@@ -57,6 +28,7 @@
             var id = UserInput.GetItemById("Enter ID number of Row you want to Delete.");
             DatabaseAccess.DeleteTable(id);
             Console.Clear();
+
             DatabaseAccess.ViewTable();
             Console.WriteLine("Row Deleted. Please hit enter to go to main menu");
             Console.ReadLine();
@@ -71,6 +43,7 @@
             List<string> timeList = CalculateDuration("Please input the start time in this format to update", "Please input the end time in this format to update ");
             DatabaseAccess.UpdateTable(id, timeList[0], timeList[1], timeList[2]);
             Console.Clear();
+
             DatabaseAccess.ViewTable();
             Console.WriteLine("Row Updated.  Please hit enter to go to main menu.");
             Console.ReadLine();
@@ -101,11 +74,11 @@
                 ts = endTime - startTime;
                 isNegative = Validation.CheckForNegativeHours(ts);
             } while (!isNegative);
+
             timeList.Add(startTime.ToString());
             timeList.Add(endTime.ToString());
             timeList.Add(ts.ToString("c"));
             return timeList;
-
         }
 
     }
