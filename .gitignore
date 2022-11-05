@@ -29,6 +29,7 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
+[Oo]ut/
 [Ll]og/
 [Ll]ogs/
 
@@ -57,10 +58,15 @@ dlldata.c
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
 
+
 # .NET
+
+# .NET Core
+
 project.lock.json
 project.fragment.lock.json
 artifacts/
+
 
 # Tye
 .tye/
@@ -362,6 +368,7 @@ MigrationBackup/
 .ionide/
 
 # Fody - auto-generated XML schema
+
 FodyWeavers.xsd
 
 ##
@@ -452,3 +459,4 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+FodyWeavers.xsd
