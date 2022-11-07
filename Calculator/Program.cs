@@ -21,6 +21,7 @@ namespace Calculator
                 string numInput1 = "";
                 string numInput2 = "";
                 double result = 0;
+                string histResult;
 
                 Console.WriteLine("What would you like to do?");
                 Console.WriteLine("\tv - View History");
@@ -46,8 +47,15 @@ namespace Calculator
                 else
                 {
                     // Ask the user to type the first number.
-                    Console.Write("Type a number, and then press Enter: ");
+                    Console.Write("Type a number, and then press Enter or press 'h' to use history: ");
                     numInput1 = Console.ReadLine();
+
+                    // using history
+                    if (numInput1 == "h")
+                    {
+                        histResult = calculatorProgram.UseHistory(numInput1);
+                        numInput1 = histResult;
+                    }                    
 
                     double cleanNum1 = 0;
                     while (!double.TryParse(numInput1, out cleanNum1))
@@ -57,8 +65,15 @@ namespace Calculator
                     }
 
                     // Ask the user to type the second number.
-                    Console.Write("Type another number, and then press Enter: ");
+                    Console.Write("Type another number, and then press Enter or press 'h' to use history: : ");
                     numInput2 = Console.ReadLine();
+
+                    // using history
+                    if (numInput2 == "h")
+                    {
+                        histResult = calculatorProgram.UseHistory(numInput2);
+                        numInput2 = histResult;
+                    }
 
                     double cleanNum2 = 0;
                     while (!double.TryParse(numInput2, out cleanNum2))
@@ -73,6 +88,7 @@ namespace Calculator
                     Console.WriteLine("\ts - Subtract");
                     Console.WriteLine("\tm - Multiply");
                     Console.WriteLine("\td - Divide");
+                    Console.WriteLine("\tz - Use Memory");
                     Console.Write("Your option? ");
 
                     string op = Console.ReadLine();

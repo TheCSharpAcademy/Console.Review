@@ -8,6 +8,8 @@ namespace CalculatorLibrary
     {
         JsonWriter writer;
         private int _calUsageCount = 0;
+        //private string _histNum;
+        private double _returnSelectHist;
         List<double> calResults = new List<double>();
 
         public CalculatorProgram()
@@ -33,6 +35,8 @@ namespace CalculatorLibrary
             // Use a switch statement to do the math.
             switch (op)
             {
+                case "z":
+                    break;
                 case "a":
                     result = num1 + num2;
                     calResults.Add(result);
@@ -97,6 +101,19 @@ namespace CalculatorLibrary
                 Console.WriteLine(i + ". " + calResult);
                 i++;
             }
+        }
+        public String UseHistory(string histNum)
+        {            
+                PrintList();
+                Console.Write("Please make a selection: ");
+                int histNumber = int.Parse(Console.ReadLine());
+                SelectHist(histNumber - 1);
+                return Convert.ToString(_returnSelectHist);           
+        }
+        public double SelectHist(int histNumber)
+        {
+            _returnSelectHist = calResults[histNumber];
+            return _returnSelectHist;
         }
     }
 
