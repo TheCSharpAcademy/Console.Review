@@ -7,6 +7,8 @@ namespace CalculatorLibrary
     public class CalculatorProgram
     {
         JsonWriter writer;
+        private int _calUsageCount = 0;
+        List<double> calResults = new List<double>();
 
         public CalculatorProgram()
         {
@@ -33,14 +35,17 @@ namespace CalculatorLibrary
             {
                 case "a":
                     result = num1 + num2;
+                    calResults.Add(result);
                     writer.WriteValue("Add");
                     break;
                 case "s":
                     result = num1 - num2;
+                    calResults.Add(result);
                     writer.WriteValue("Subtract");
                     break;
                 case "m":
                     result = num1 * num2;
+                    calResults.Add(result);
                     writer.WriteValue("Multiply");
                     break;
                 case "d":
@@ -48,8 +53,9 @@ namespace CalculatorLibrary
                     if (num2 != 0)
                     {
                         result = num1 / num2;
+                        calResults.Add(result);
+                        writer.WriteValue("Divide");
                     }
-                    writer.WriteValue("Divide");
                     break;
                 // Return text for an incorrect option entry.
                 default:
@@ -59,6 +65,8 @@ namespace CalculatorLibrary
             writer.WriteValue(result);
             writer.WriteEndObject();
 
+            // increment the Calculator usage, used with the Cal_Usage Method.
+            _calUsageCount++;
             return result;
         }
         public void Finish()
@@ -66,6 +74,29 @@ namespace CalculatorLibrary
             writer.WriteEndArray();
             writer.WriteEndObject();
             writer.Close();
+        }
+        public int Cal_Usage()
+        {
+            return _calUsageCount;
+        }
+        public void EndHistory()
+        {
+            Console.WriteLine("\n<---- History ---->\n");
+            PrintList();
+            Console.WriteLine("\n<----------------->\n");
+        }
+        public void ClearHistory()
+        {
+            calResults.Clear();
+        }
+        public void PrintList()
+        {
+            int i = 1;
+            foreach (double calResult in calResults)
+            {                
+                Console.WriteLine(i + ". " + calResult);
+                i++;
+            }
         }
     }
 
