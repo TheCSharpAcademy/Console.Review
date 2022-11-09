@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PhoneBook-App": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\Clyde\\source\\repos\\PhoneBook-App\\PhoneBook-App"
+    }
+  }
+}
