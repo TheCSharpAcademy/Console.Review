@@ -110,6 +110,9 @@ public class PhoneBookAppController
 
     public void EditContact()
     {
+        bool nameUpdtaed = true;
+        bool numberUpdtated = true;
+
         GetInput getInput = new GetInput();
         DisplayTable displayTable = new DisplayTable();
 
@@ -154,6 +157,7 @@ public class PhoneBookAppController
         else if (contactName == "")
         {
             contactName = editContact.Name.ToString();
+            nameUpdtaed = false;
         }
 
         while (!Validation.IsNameValid(contactName))
@@ -166,6 +170,7 @@ public class PhoneBookAppController
             else if (contactName == "")
             {
                 contactName = editContact.Name.ToString();
+                nameUpdtaed = false;
             }
         }
 
@@ -177,6 +182,7 @@ public class PhoneBookAppController
         else if (contactNumber == "")
         {
             contactNumber = editContact.PhoneNumber.ToString();
+            numberUpdtated= false;
         }
 
         while (!Validation.IsPhoneNumberValid(contactNumber))
@@ -189,9 +195,17 @@ public class PhoneBookAppController
             else if (contactNumber == "")
             {
                 contactNumber = editContact.PhoneNumber.ToString();
+                numberUpdtated= false;
             }
         }
+                
+        if (nameUpdtaed == false && numberUpdtated == false)
+        {
+            Console.WriteLine("\nContact unchanged.\nPress Enter...");
+            Console.ReadLine();
 
+            getInput.MainMenu();
+        }
 
         editContact.Name = contactName;
         editContact.PhoneNumber = contactNumber;
@@ -216,15 +230,13 @@ public class PhoneBookAppController
         Console.WriteLine("\nEnter Name or Number to search for or 0 to go back to Menu:");
         string contactSearch = Console.ReadLine();
 
-        if (contactSearch == "0")
-        {
-            getInput.MainMenu();
-        }
+        if (contactSearch == "0") { getInput.MainMenu(); }
 
         var searchContact = context.Contacts.Where(j => j.Name.Contains(contactSearch)).ToList();
         var searchNumber = context.Contacts.Where(j => j.PhoneNumber.Contains(contactSearch)).ToList();
         searchContact.AddRange(searchNumber);
 
+        Console.Clear();
         DisplayTable.ShowContacts(searchContact);
 
         if (searchContact.Count == 1)
