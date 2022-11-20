@@ -1,216 +1,217 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
-using PhoneBookApp.Data;
+﻿using PhoneBookApp.Data;
 using PhoneBookApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PhoneBookApp.Controllers
+namespace PhoneBookApp.Controllers;
+
+public class PhoneBookAppController
 {
-    public class PhoneBookAppController
+    public void CreateContact()
     {
-        public void CreateContact()
+        GetInput getInput = new GetInput();
+
+        var context = new PhoneBookAppDbContext();
+
+        var newContact = new Contact();
+
+        Console.WriteLine("New Contact");
+
+        Console.WriteLine("\nContact Name:");
+        string contactName = Console.ReadLine();            
+
+        while (!Validation.IsNameValid(contactName))
         {
-            GetInput getInput = new GetInput();
+            Console.WriteLine("\nPlease input a valid Contact Name:");
+            contactName = Console.ReadLine();
+        }
 
-            var context = new PhoneBookAppDbContext();
+        Console.WriteLine("\nPhone Number:");
+        string contactNumber = Console.ReadLine();
 
-            var newContact = new Contact();
+        while (!Validation.IsPhoneNumberValid(contactNumber))
+        {
+            Console.WriteLine("\nPlease input a valid Contact Number:");
+            contactNumber = Console.ReadLine();
+        }
 
-            bool isNameValid = false;
+        newContact.Name = contactName;
+        newContact.PhoneNumber = contactNumber;            
 
-            Console.WriteLine("New Contact");
+        context.Contacts.Add(newContact);
+        context.SaveChanges();
 
-            Console.WriteLine("\nCentact Name:");
-            string contactName = Console.ReadLine();            
+        Console.WriteLine("\nContact Created.\nPress Enter...");
+        Console.ReadLine();
 
-            while (!Validation.IsNameValid(contactName))
-            {
-                Console.WriteLine("\nPlease input a valid Centact Name:");
-                contactName = Console.ReadLine();
-            }
+        getInput.MainMenu();
+    }
 
-            Console.WriteLine("\nPhone Number:");
-            string contactNumber = Console.ReadLine();
+    public void DeleteContact()
+    {
+        GetInput getInput = new GetInput();
+        DisplayTable displayTable = new DisplayTable();
 
-            while (!Validation.IsPhoneNumberValid(contactNumber))
-            {
-                Console.WriteLine("\nPlease input a valid Centact Number:");
-                contactNumber = Console.ReadLine();
-            }
+        displayTable.DisplayContacts();
 
-            newContact.Name = contactName;
-            newContact.PhoneNumber = contactNumber;            
+        var context = new PhoneBookAppDbContext();            
 
-            context.Contacts.Add(newContact);
-            context.SaveChanges();
+        Console.WriteLine("Delete Contact");
 
-            Console.WriteLine("\nContact Created.\nPress Enter...");
-            Console.ReadLine();
+        Console.WriteLine("\nId of contact to Delete or 0 to go back to Menu:");
+        string contactId = Console.ReadLine();
 
+        if (contactId == "0")
+        {
             getInput.MainMenu();
         }
 
-        public void DeleteContact()
+        while (!Validation.IsIdValid(contactId))
         {
-            GetInput getInput = new GetInput();
-            DisplayTable displayTable = new DisplayTable();
+            Console.WriteLine("\nInvalid entry, please enter the Id of contact to Delete or 0 to go back to Menu:");
+            contactId = Console.ReadLine();
 
-            displayTable.DisplayContacts();
+            if (contactId == "0")
+            {
+                getInput.MainMenu();
+            }
+        }
 
-            var context = new PhoneBookAppDbContext();            
+        int id = Int32.Parse(contactId);
+        var deleteContact = context.Contacts.Find(id);
 
-            Console.WriteLine("Delete Contact");
-
-            Console.WriteLine("\nId of contact to Delete or 0 to go back to Menu:");
-            string contactId = Console.ReadLine();
+        while (deleteContact == null)
+        {
+            Console.WriteLine("\nInvalid entry, please enter a valid Id or 0 to go back to Menu:");
+            contactId = Console.ReadLine();
 
             if (contactId == "0")
             {
                 getInput.MainMenu();
             }
 
-            while (!Validation.IsIdValid(contactId))
-            {
-                Console.WriteLine("\nInvalid entry, please enter the Id of contact to Delete or 0 to go back to Menu:");
-                contactId = Console.ReadLine();
+            id = Int32.Parse(contactId);
+            deleteContact = context.Contacts.Find(id);
+        }            
 
-                if (contactId == "0")
-                {
-                    getInput.MainMenu();
-                }
-            }
+        context.Contacts.Remove(deleteContact);
+        context.SaveChanges();
 
-            int id = Int32.Parse(contactId);
-            var deleteContact = context.Contacts.Find(id);
+        Console.WriteLine("\nContact Deleted.\nPress Enter...");
+        Console.ReadLine();
 
-            while (deleteContact == null)
-            {
-                Console.WriteLine("\nInvalid entry, please enter a valid Id or 0 to go back to Menu:");
-                contactId = Console.ReadLine();
+        getInput.MainMenu();
+    }
 
-                if (contactId == "0")
-                {
-                    getInput.MainMenu();
-                }
+    public void EditContact()
+    {
+        GetInput getInput = new GetInput();
+        DisplayTable displayTable = new DisplayTable();
 
-                id = Int32.Parse(contactId);
-                deleteContact = context.Contacts.Find(id);
-            }            
+        displayTable.DisplayContacts();
 
-            context.Contacts.Remove(deleteContact);
-            context.SaveChanges();
+        var context = new PhoneBookAppDbContext();        
 
-            Console.WriteLine("\nContact Deleted.\nPress Enter...");
-            Console.ReadLine();
+        Console.WriteLine("\nId of contact to Edit or 0 to go back to Menu:");
+        string contactId = Console.ReadLine();
 
+        if (contactId == "0")
+        {
             getInput.MainMenu();
         }
 
-        public void EditContact()
+        while (!Validation.IsIdValid(contactId))
         {
-            GetInput getInput = new GetInput();
-            DisplayTable displayTable = new DisplayTable();
+            Console.WriteLine("\nInvalid entry, please enter the Id of contact to Delete or 0 to go back to Menu:");
+            contactId = Console.ReadLine();
 
-            displayTable.DisplayContacts();
+            if (contactId == "0")
+            {
+                getInput.MainMenu();
+            }
+        }
 
-            var context = new PhoneBookAppDbContext();
+        int id = Int32.Parse(contactId);
+        var editContact = context.Contacts.Find(id);
 
-            Console.WriteLine("Edit Contact");
-
-            Console.WriteLine("\nId of contact to Edit or 0 to go back to Menu:");
-            string contactId = Console.ReadLine();
+        while (editContact == null)
+        {
+            Console.WriteLine("\nInvalid entry, please enter a valid Id or 0 to go back to Menu:");
+            contactId = Console.ReadLine();
 
             if (contactId == "0")
             {
                 getInput.MainMenu();
             }
 
-            while (!Validation.IsIdValid(contactId))
-            {
-                Console.WriteLine("\nInvalid entry, please enter the Id of contact to Delete or 0 to go back to Menu:");
-                contactId = Console.ReadLine();
-
-                if (contactId == "0")
-                {
-                    getInput.MainMenu();
-                }
-            }
-
-            int id = Int32.Parse(contactId);
-            var editContact = context.Contacts.Find(id);
-
-            while (editContact == null)
-            {
-                Console.WriteLine("\nInvalid entry, please enter a valid Id or 0 to go back to Menu:");
-                contactId = Console.ReadLine();
-
-                if (contactId == "0")
-                {
-                    getInput.MainMenu();
-                }
-
-                id = Int32.Parse(contactId);
-                editContact = context.Contacts.Find(id);
-            }
-
-            Console.WriteLine("\nCentact Name:");
-            string contactName = Console.ReadLine();
-            Console.WriteLine("\nPhone Number:");
-            string contactNumber = Console.ReadLine();
-
-            editContact.Name = contactName;
-            editContact.PhoneNumber = contactNumber;
-
-            context.Contacts.Update(editContact);
-            context.SaveChanges();
-
-            Console.WriteLine("\nContact Updated.\nPress Enter...");
-            Console.ReadLine();
-
-            getInput.MainMenu();
+            id = Int32.Parse(contactId);
+            editContact = context.Contacts.Find(id);            
         }
 
-        public void SearchContact()
+        displayTable.DisplayContact(id);
+
+        Console.WriteLine("\nContact Name:");
+        string contactName = Console.ReadLine();
+
+        while (!Validation.IsNameValid(contactName))
         {
-            GetInput getInput = new GetInput();
-            //DisplayTable displayTable = new DisplayTable();
+            Console.WriteLine("\nPlease input a valid Contact Name:");
+            contactName = Console.ReadLine();
+        }
 
-            //displayTable.DisplayContacts();
+        Console.WriteLine("\nPhone Number:");
+        string contactNumber = Console.ReadLine();
 
-            var context = new PhoneBookAppDbContext();
+        while (!Validation.IsPhoneNumberValid(contactNumber))
+        {
+            Console.WriteLine("\nPlease input a valid Contact Number:");
+            contactNumber = Console.ReadLine();
+        }
 
-            Console.WriteLine("Search Contact");
 
-            Console.WriteLine("\nEnter Name or Number to search for or 0 to go back to Menu:");
-            string contactSearch = Console.ReadLine();
+        editContact.Name = contactName;
+        editContact.PhoneNumber = contactNumber;
 
-            if (contactSearch == "0")
-            {
-                getInput.MainMenu();
-            }
+        context.Contacts.Update(editContact);
+        context.SaveChanges();
 
-            var searchContact = context.Contacts.Where(j => j.Name.Contains(contactSearch)).ToList();
-            var searchNumber = context.Contacts.Where(j => j.PhoneNumber.Contains(contactSearch)).ToList();
-            searchContact.AddRange(searchNumber);
+        Console.WriteLine("\nContact Updated.\nPress Enter...");
+        Console.ReadLine();
 
-            FormatTable.ShowContacts(searchContact);
+        getInput.MainMenu();
+    }
 
-            if (searchContact.Count == 1)
-            {
-                Console.WriteLine($"\n{searchContact.Count} Contact Found.\nPress Enter...");
-                Console.ReadLine();
-            }
-            else 
-            {
-                Console.WriteLine($"\n{searchContact.Count} Contacts Found.\nPress Enter...");
-                Console.ReadLine();
-            }
-            
+    public void SearchContact()
+    {
+        GetInput getInput = new GetInput();            
 
+        var context = new PhoneBookAppDbContext();
+
+        Console.WriteLine("Search Contact");
+
+        Console.WriteLine("\nEnter Name or Number to search for or 0 to go back to Menu:");
+        string contactSearch = Console.ReadLine();
+
+        if (contactSearch == "0")
+        {
             getInput.MainMenu();
         }
+
+        var searchContact = context.Contacts.Where(j => j.Name.Contains(contactSearch)).ToList();
+        var searchNumber = context.Contacts.Where(j => j.PhoneNumber.Contains(contactSearch)).ToList();
+        searchContact.AddRange(searchNumber);
+
+        DisplayTable.ShowContacts(searchContact);
+
+        if (searchContact.Count == 1)
+        {
+            Console.WriteLine($"\n{searchContact.Count} Contact Found.\nPress Enter...");
+            Console.ReadLine();
+        }
+        else 
+        {
+            Console.WriteLine($"\n{searchContact.Count} Contacts Found.\nPress Enter...");
+            Console.ReadLine();
+        }            
+
+        getInput.MainMenu();
     }
 }

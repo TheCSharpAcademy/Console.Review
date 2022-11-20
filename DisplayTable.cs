@@ -1,28 +1,51 @@
-﻿using PhoneBookApp.Controllers;
+﻿using ConsoleTableExt;
 using PhoneBookApp.Data;
 using PhoneBookApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PhoneBookApp
+namespace PhoneBookApp;
+
+internal class DisplayTable
 {
-    internal class DisplayTable
+    internal static void ShowContacts<T>(List<T> tableData) where T : class
     {
-        public void DisplayContacts()
-        {
-            var context = new PhoneBookAppDbContext();
-
-            List<Contact> contacts = new List<Contact>();
-
-            foreach (var contact in context.Contacts)
-            {
-                contacts.Add(contact);                
-            }
-
-            FormatTable.ShowContacts(contacts);
-        }        
+        ConsoleTableBuilder
+            .From(tableData)
+            .WithTitle("Contacts")
+            .ExportAndWriteLine();
     }
-}
+
+    public void DisplayContacts()
+    {
+        Console.Clear();
+
+        var context = new PhoneBookAppDbContext();
+
+        List<Contact> contacts = new List<Contact>();
+
+        foreach (var contact in context.Contacts)
+        {
+            contacts.Add(contact);                
+        }
+
+        ShowContacts(contacts);
+    }
+
+    public void DisplayContact(int id)
+    {
+        Console.Clear();
+        Console.WriteLine("Edit Contact\n");
+        var context = new PhoneBookAppDbContext();
+
+        List<Contact> contacts = new List<Contact>();
+
+        foreach (var contact in context.Contacts)
+        {
+            if (contact.Id == id)
+            {
+                contacts.Add(contact);
+            }     
+        }      
+
+        ShowContacts(contacts);
+    }
+}    

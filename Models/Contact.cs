@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace PhoneBookApp.Models
+namespace PhoneBookApp.Models;
+
+public class Contact
 {
-    public class Contact
-    {
-        [Required]
-        public int Id { get; set; }
+    [Required]
+    public int Id { get; set; }
 
-        public string Name { get; set; }
+    [Required]
+    public string Name { get; set; }
 
-        public string PhoneNumber { get; set; }
-    }
+    [Required]
+    public string PhoneNumber { get; set; }
 }
