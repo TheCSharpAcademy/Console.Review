@@ -11,15 +11,12 @@ namespace CalculatorProgram
 
             DisplayTitle();
 
-            Calculator calculator = new Calculator();
+            Calculator calculator = new();
 
             while (!endApp)
             {
-                Console.Write("Type a number, and then press Enter: ");
-                double cleanNum1 = ValidateNumberInput(calculator);
-
-                Console.Write("Type another number, and then press Enter: ");
-                double cleanNum2 = ValidateNumberInput(calculator);
+                double cleanNum1, cleanNum2;
+                GetInputs(calculator, out cleanNum1, out cleanNum2);
 
                 DisplayOperatorOptions();
 
@@ -35,13 +32,19 @@ namespace CalculatorProgram
                 DisplayCleanupOptions();
 
                 endApp = ProcessCleanup(endApp, calculator);
-
             }
             calculator.Finish();
             return;
         }
 
-        // This seems to be an ugly solution. Where can I put the endApp bool?
+        private static void GetInputs(Calculator calculator, out double cleanNum1, out double cleanNum2)
+        {
+            Console.Write("Type a number, and then press Enter: ");
+            cleanNum1 = ValidateNumberInput(calculator);
+            Console.Write("Type another number, and then press Enter: ");
+            cleanNum2 = ValidateNumberInput(calculator);
+        }
+
         private static bool ProcessCleanup(bool endApp, Calculator calculator)
         {
             string selection = Console.ReadLine();
@@ -56,13 +59,12 @@ namespace CalculatorProgram
                 default:
                     break;
             }
-
             return endApp;
         }
 
         private static void DisplayCalculatorUsage(Calculator calculator)
         {
-            Console.Write($"This calculator has been used {calculator.CalculationsCompleted} times.\n");
+            Console.Write($"This calculator has been used {calculator.CalculationsCompleted} times.\n\n");
         }
 
         private static void PrintResult(double result)
@@ -99,12 +101,12 @@ namespace CalculatorProgram
                 i++;
             }
             Console.WriteLine(memory);
-            Console.WriteLine("To reference memory in your input type 'M' followed by the memory reference (e.g. M2)");
+            Console.WriteLine("To reference memory in your input type 'M' followed by the memory reference (e.g. M2)\n");
         }
 
         private static void DisplayOperatorOptions()
         {
-            Console.WriteLine("Choose an operator from the following list:");
+            Console.WriteLine("\nChoose an operator from the following list:\n");
             Console.WriteLine("\ta - Add");
             Console.WriteLine("\ts - Subtract");
             Console.WriteLine("\tm - Multiply");
@@ -113,28 +115,28 @@ namespace CalculatorProgram
             Console.WriteLine("\tsin - Sin(num1)");
             Console.WriteLine("\tcos - Cos(num1)");
             Console.WriteLine("\ttan - Tan(num1)");
-            Console.Write("Your option? ");
+            Console.Write("\nYour option? ");
         }
 
         private static void DisplayCleanupOptions()
         {
             Console.WriteLine("-----------------------\n");
-            Console.WriteLine("What would you like to do next?:");
+            Console.WriteLine("What would you like to do next?:\n");
             Console.WriteLine("\tn - Exit");
             Console.WriteLine("\tc - Clear History");
             Console.WriteLine("\tOther - Continue calculating!");
-            Console.Write("Your option? ");
+            Console.Write("\nYour option? ");
         }
 
         private static string ValidateOperatorInput()
         {
-            string op = Console.ReadLine();
-            while (!IsValidOperator(op))
+            string operationSymbol = Console.ReadLine();
+            while (!IsValidOperator(operationSymbol))
             {
                 Console.Write("This is not valid input. Please enter one of the above operators: ");
-                op = Console.ReadLine();
+                operationSymbol = Console.ReadLine();
             }
-            return op;
+            return operationSymbol;
         }
 
         private static bool IsValidOperator(string op)
@@ -172,7 +174,7 @@ namespace CalculatorProgram
                 {
                     Console.Write("This is not valid input. Please enter a number or memory reference: ");
                 }
-
+                
                 numInput = Console.ReadLine();
             }
             return cleanNum;
@@ -181,7 +183,7 @@ namespace CalculatorProgram
         private static void DisplayTitle()
         {
             Console.WriteLine("Console Calculator in C#\r");
-            Console.WriteLine("------------------------\n");
+            Console.WriteLine("------------------------\n\n");
         }
     }
 }

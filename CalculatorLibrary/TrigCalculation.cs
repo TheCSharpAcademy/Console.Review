@@ -13,12 +13,12 @@ namespace CalculatorLibrary
             this.num1 = num1;
             this.num2 = num2;
             this.Result = result;
-            this.op = op;
+            this.operatorSymbol = op;
         }
 
         public override string ToString()
         {
-            return $"{op}({num1}) = {Result}\n";
+            return $"{operatorSymbol}({num1}) = {Result}\n";
         }
     }
 }
