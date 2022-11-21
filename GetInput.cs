@@ -233,7 +233,9 @@ namespace PhoneBookApp
             Console.WriteLine("\nEnter Name or Number to search for or 0 to go back to Menu:");
             string contactSearch = Console.ReadLine();
 
-            if (contactSearch == "0") { getInputMainMenu(); }
+            if (contactSearch == "0") { MainMenu(); }
+
+            return contactSearch;
         }
 
     }
