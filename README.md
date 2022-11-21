@@ -1,9 +1,13 @@
-# Code Review Checklist
+# HabitTracker
 
-1. Log into your github account
-2. Create a fork of this project
-3. Clone your fork into your machine
-4. Commit and push your changes
-5. Submit a pull request
-6. Work through the reviewer's comments
-7. Repeat steps 4-7 until the reviewer approves your project
+A C# Console App which allows you to track habits and how often you do them. The app allows you to create custom habits, create, update and delete entries as well as view your trackers and see your record breaking days for each habit.
+
+## How to use the Habit Tracker
+
+Simply open the app and select one of the options on screen to get started! The app will create a local database that is unique to you!
+
+## Potential features
+
+- Show averages for habits over time
+- Filter tracker by day, week, month and year
+- Store notes with each entry
