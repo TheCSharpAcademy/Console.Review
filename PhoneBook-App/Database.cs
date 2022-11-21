@@ -68,6 +68,8 @@ internal class Database
 
                 db.Contacts.Update(record);
                 db.SaveChanges();
+
+                Console.WriteLine("\nOperation was successful!");
             } 
             else
             {

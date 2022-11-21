@@ -2,7 +2,7 @@
 internal class PhoneBookController
 {
     readonly Database Database = new();
-    readonly TableVisualisationEngine TVEngine = new();
+    readonly TableVisualisationEngine TableVisualisationEngine = new();
     internal void ShowMenu()
     {
         Console.Clear();
@@ -40,22 +40,27 @@ internal class PhoneBookController
 
     private void ShowContacts()
     {
-        TVEngine.Add(Database.ReadAll());
         Console.Clear();
-        TVEngine.Print();
-        TVEngine.Clear();
+        TableVisualisationEngine.Add(Database.ReadAll());
+        TableVisualisationEngine.Print();
+        TableVisualisationEngine.Clear();
     }
 
     private void AddContact()
     {
         string Name = UserInput.GetString("Name");
-        string PhoneNumber = UserInput.GetString("Phone Number");
+        string PhoneNumber = UserInput.GetPhoneNumber();
 
-        Database.Add(new ContactClass { Name = Name, PhoneNumber = PhoneNumber });
+        Database.Add(new ContactClass { 
+            Name = Name, 
+            PhoneNumber = PhoneNumber 
+        });
     }
 
     private void DeleteContact()
     {
+        ShowContacts();
+
         int Id = UserInput.GetInt("ID");
 
         Database.Delete(Id);
@@ -63,13 +68,28 @@ internal class PhoneBookController
 
     private void UpdateContact()
     {
+        ShowContacts();
+
         int Id = UserInput.GetInt("ID");
-        string Name = UserInput.GetString("Name");
-        string PhoneNumber = UserInput.GetString("Phone Number");
 
-        Database.Update(new ContactClass { Id = Id, Name = Name, PhoneNumber = PhoneNumber });
+        var Contact = Database.Read(Id);
+
+        if (Contact != null)
+        {
+            Console.WriteLine("What do you want to update?  1. Name     2. Phone Number");
+            string option = UserInput.GetUpdateOptionString();
+
+            switch(option)
+            {
+                case "1":
+                    Contact.Name = UserInput.GetString("Name");
+                    break;
+                case "2":
+                    Contact.PhoneNumber = UserInput.GetPhoneNumber();
+                    break;
+            }
+        }
+        Database.Update(Contact);
     }
-
-
 }
 
