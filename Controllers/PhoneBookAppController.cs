@@ -84,13 +84,8 @@ public class PhoneBookAppController
         GetInput getInput = new();            
 
         var context = new PhoneBookAppDbContext();
-
-        //Console.WriteLine("Search Contact");
-
-        //Console.WriteLine("\nEnter Name or Number to search for or 0 to go back to Menu:");
-        //string contactSearch = Console.ReadLine();
-
-        //if (contactSearch == "0") { getInput.MainMenu(); }
+        
+        string contactSearch = getInput.GetSearchContactInput();        
 
         var searchContact = context.Contacts.Where(j => j.Name.Contains(contactSearch)).ToList();
         var searchNumber = context.Contacts.Where(j => j.PhoneNumber.Contains(contactSearch)).ToList();
