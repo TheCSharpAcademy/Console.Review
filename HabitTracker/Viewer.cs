@@ -37,4 +37,34 @@ public static class Viewer
         Console.WriteLine($"\nBelow is the most {entry.Measurement} you have done in one go:\n");
         Console.WriteLine(entry.GetString());
     }
+
+    public static void ProcessInput(string userInput)
+    {
+        switch (userInput)
+        {
+            case "v":
+                DisplayEntryTable();
+                break;
+            case "h":
+                UserController.ViewHighest();
+                break;
+            case "a":
+                UserController.AddEntry();
+                break;
+            case "d":
+                UserController.DeleteEntry();
+                break;
+            case "u":
+                UserController.UpdateEntry();
+                break;
+            case "c":
+                UserController.CreateHabit();
+                break;
+            case "0":
+                Program.SetUserFinished();
+                break;
+            default:
+                break;
+        }
+    }
 }
