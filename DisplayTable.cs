@@ -20,7 +20,7 @@ internal class DisplayTable
 
         var context = new PhoneBookAppDbContext();
 
-        List<Contact> contacts = new List<Contact>();
+        List<Contact> contacts = new();
 
         foreach (var contact in context.Contacts)
         {
@@ -34,9 +34,10 @@ internal class DisplayTable
     {
         Console.Clear();
         Console.WriteLine("Edit Contact\n");
+
         var context = new PhoneBookAppDbContext();
 
-        List<Contact> contacts = new List<Contact>();
+        List<Contact> contacts = new();
 
         foreach (var contact in context.Contacts)
         {
