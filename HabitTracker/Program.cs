@@ -1,21 +1,21 @@
 ﻿using HabitTracker;
-using Microsoft.Data.Sqlite;
 
 class Program
 {
-    private static DAL dal = new DAL();
+    private static bool userFinished = false;
     static void Main(string[] args)
     {
-        DisplayTitle();
+        Viewer.DisplayTitle();
 
         InitializeDatabase();
 
-        while (true)
+        while (!userFinished)
         {
-            DisplayOptionsMenu();
-            string userInput = InputValidator.GetUserOption();
+            Viewer.DisplayOptionsMenu();
+            string userInput = UserInput.GetUserOption();
             ProcessInput(userInput);
         }
+        ExitApp();
     }
 
     private static void ProcessInput(string userInput)
@@ -23,7 +23,7 @@ class Program
         switch (userInput)
         {
             case "v":
-                ViewTable();
+                Viewer.DisplayEntryTable();
                 break;
             case "h":
                 ViewHighest();
@@ -41,65 +41,54 @@ class Program
                 CreateHabit();
                 break;
             case "0":
-                ExitApp();
+                userFinished = true;
                 break;
             default:
                 break;
         }
     }
 
-    private static void ViewTable()
-    {
-        List<Entry> entries = dal.GetEntries();
-        string output = string.Empty;
-        foreach (Entry entry in entries)
-        {
-            output += $"{entry}\n";
-        }
-        Console.WriteLine(output);
-
-    }
-
     private static void ViewHighest()
     {
-        int habitId = InputValidator.GetHabitId();
-        Entry entry = dal.GetHighestEntryForHabit(habitId);
-        Console.WriteLine($"Below is the most {entry.measurement} you have done in one go:");
-        Console.WriteLine(entry);
+        int habitId = UserInput.GetHabitId();
+        Entry entry = DataAccessor.GetHighestEntryForHabit(habitId);
+        Viewer.DisplayHighestEntry(entry);
     }
 
     private static void AddEntry()
     {
-        int habitId = InputValidator.GetHabitId();
-        string date = InputValidator.GetEntryDate();
-        int quantity = InputValidator.GetEntryQuantity(dal.GetHabit(habitId).measurement);
-        dal.AddEntry(date, quantity, habitId);
+        int habitId = UserInput.GetHabitId();
+        string date = UserInput.GetEntryDate();
+        int quantity = UserInput.GetEntryQuantity(DataAccessor.GetHabit(habitId).Measurement);
+        DataAccessor.AddEntry(date, quantity, habitId);
         Console.WriteLine("\nSuccessfully added new entry.");
-
     }
 
     private static void DeleteEntry()
     {
-        ViewTable();
-        int id = InputValidator.GetIdForRemoval();
-        dal.DeleteEntry(id);
+        Viewer.DisplayEntryTable();
+        int id = UserInput.GetIdForRemoval();
+        DataAccessor.DeleteEntry(id);
+        Console.WriteLine("\nSuccessfully deleted entry.");
     }
 
     private static void UpdateEntry()
     {
-        ViewTable();
-        int id = InputValidator.GetIdForUpdate();
-        int habitId = InputValidator.GetHabitId();
-        int quantity = InputValidator.GetEntryQuantity(dal.GetHabit(habitId).measurement);
-        dal.UpdateEntry(id, quantity);
+        Viewer.DisplayEntryTable();
+        int id = UserInput.GetIdForUpdate();
+        int habitId = UserInput.GetHabitId();
+        int quantity = UserInput.GetEntryQuantity(DataAccessor.GetHabit(habitId).Measurement);
+        string date = UserInput.GetEntryDate();
+        DataAccessor.UpdateEntry(id, quantity, date);
+        Console.WriteLine("\nSuccessfully updated entry.");
     }
 
     private static void CreateHabit()
     {
-        string name = InputValidator.GetHabitName();
-        string measurement = InputValidator.GetHabitMeasurement();
-        dal.CreateHabit(name, measurement);
-        Console.WriteLine("Successfully added new habit.");
+        string name = UserInput.GetHabitName();
+        string measurement = UserInput.GetHabitMeasurement();
+        DataAccessor.CreateHabit(name, measurement);
+        Console.WriteLine("\nSuccessfully added new habit.");
     }
 
     private static void ExitApp()
@@ -107,27 +96,8 @@ class Program
         Environment.Exit(0);
     }
 
-    private static void DisplayOptionsMenu()
-    {
-        Console.WriteLine("\nChoose an action from the following list:");
-        Console.WriteLine("\tv - View your tracker");
-        Console.WriteLine("\th - View your biggest entry for a habit");
-        Console.WriteLine("\ta - Add a new entry");
-        Console.WriteLine("\td - Delete an entry");
-        Console.WriteLine("\tu - Update an entry");
-        Console.WriteLine("\tc - Create new habit");
-        Console.WriteLine("\t0 - Quit this application");
-        Console.Write("Your option? ");
-    }
-
     private static void InitializeDatabase()
     {
-        dal.CreateMainTableIfMissing();
-    }
-
-    private static void DisplayTitle()
-    {
-        Console.WriteLine("Habit Tracker\r");
-        Console.WriteLine("-------------\n");
+        DataAccessor.CreateMainTableIfMissing();
     }
 }
