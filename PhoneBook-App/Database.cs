@@ -1,5 +1,4 @@
-﻿
-internal class Database
+﻿internal class Database
 {
     internal Database()
     {
@@ -17,13 +16,13 @@ internal class Database
         }
     }
 
-    internal void Add(ContactClass Contact)
+    internal void Add(ContactClass contact)
     {
         using (var db = new PhoneBookContext())
         {
             try
             {
-                db.Contacts.Add(Contact);
+                db.Contacts.Add(contact);
                 db.SaveChanges();
 
                 Console.WriteLine("\nOperation was successful!");
@@ -35,15 +34,15 @@ internal class Database
         }
     }
 
-    internal void Delete(int Id)
+    internal void Delete(int id)
     {
         using (var db = new PhoneBookContext())
         {
-            var Contact = new ContactClass { Id = Id };
+            var contact = new ContactClass { Id = id };
 
             try
             {
-                db.Contacts.Remove(Contact);
+                db.Contacts.Remove(contact);
                 db.SaveChanges();
 
                 Console.WriteLine("\nOperation was successful!");
@@ -55,16 +54,16 @@ internal class Database
         }
     }
 
-    internal void Update(ContactClass Contact)
+    internal void Update(ContactClass contact)
     {
         using (var db = new PhoneBookContext())
         {
-            var record = db.Contacts.Find(Contact.Id);
+            var record = db.Contacts.Find(contact.Id);
 
             if (record != null)
             {
-                record.Name = Contact.Name;
-                record.PhoneNumber = Contact.PhoneNumber;
+                record.Name = contact.Name;
+                record.PhoneNumber = contact.PhoneNumber;
 
                 db.Contacts.Update(record);
                 db.SaveChanges();
@@ -78,36 +77,36 @@ internal class Database
         }
     }
 
-    internal ContactClass Read(int Id)
+    internal ContactClass Read(int id)
     {
-        ContactClass? Record;
+        ContactClass? record;
 
         using (var db = new PhoneBookContext())
         {
             
-            Record = db.Contacts
-                .Where(Record => Record.Id == Id)
-                .Select(Record => new ContactClass { Id = Record.Id, Name = Record.Name, PhoneNumber = Record.PhoneNumber })
+            record = db.Contacts
+                .Where(record => record.Id == id)
+                .Select(record => new ContactClass { Id = record.Id, Name = record.Name, PhoneNumber = record.PhoneNumber })
                 .FirstOrDefault();
             
-            if (Record == null) Console.WriteLine("This record doesn't exist!");
+            if (record == null) Console.WriteLine("This record doesn't exist!");
         }
 
-        return Record!;
+        return record!;
     }
 
     internal List<ContactClass> ReadAll()
     {
-        List<ContactClass> Records;
+        List<ContactClass> records;
 
         using (var db = new PhoneBookContext())
         {
-            Records = db.Contacts
-                .Select(Record => new ContactClass { Id = Record.Id, Name = Record.Name, PhoneNumber = Record.PhoneNumber })
+            records = db.Contacts
+                .Select(record => new ContactClass { Id = record.Id, Name = record.Name, PhoneNumber = record.PhoneNumber })
                 .ToList();
         }
 
-        return Records;
+        return records;
     }
 }
 

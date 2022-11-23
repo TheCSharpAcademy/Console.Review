@@ -1,68 +1,68 @@
-﻿
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 static class UserInput
 {
-    static internal int GetInt(string Title)
+    static internal int GetInt(string title)
     {
-        int x = 0;
+        int value = 0;
 
-        while(x == 0)
+        while(value == 0)
         {
-            Console.WriteLine($"\nInput [{Title}]: ");
-            string? Input = Console.ReadLine();
+            Console.WriteLine($"\nInput [{title}]: ");
+            string? input = Console.ReadLine();
 
-            Int32.TryParse(Input, out x);
+            Int32.TryParse(input, out value);
 
-            if (x == 0) Console.WriteLine("Wrong format!");
+            if (value == 0) Console.WriteLine("Wrong format!");
         }
 
-        return x;
+        return value;
     }
 
     static internal string GetPhoneNumber()
     {
-        string pattern = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$";
+        string pattern = "^[+]370[0-9]{8}";
 
-        string? Input = "";
+        string? input = "";
 
-        while (Input == "" || !Regex.IsMatch(Input, pattern))
+        while (input.Length != 12 || !Regex.IsMatch(input, pattern))
         {
-            Console.WriteLine($"Input [Phone Number]: ");
-            Input = Console.ReadLine();
+            Console.WriteLine($"Input Phone Number [+370********]: ");
+            input = Console.ReadLine();
 
-            if (!Regex.IsMatch(Input, pattern)) Console.WriteLine("Wrong format!");
+            if (!Regex.IsMatch(input, pattern) || input.Length != 12) 
+                Console.WriteLine("Wrong format!");
         }
 
-        return Input;
+        return input;
     }
 
-    static internal string GetString(string Title)
+    static internal string GetString(string title)
     {
-        string? Input = "";
+        string? input = "";
 
-        while (Input == "")
+        while (input == "")
         {
-            Console.WriteLine($"Input [{Title}]: ");
-            Input = Console.ReadLine();
+            Console.WriteLine($"Input [{title}]: ");
+            input = Console.ReadLine();
         }
 
-        return Input;
+        return input;
     }
 
     static internal string GetUpdateOptionString()
     {
-        string[] arr = { "1", "2" };
+        string[] options = { "1", "2" };
 
-        string? Input = "";
+        string? input = "";
 
-        while (!Array.Exists(arr, element => element == Input))
+        while (!Array.Exists(options, element => element == input))
         {
             Console.WriteLine($"Input [Option]: ");
-            Input = Console.ReadLine();
+            input = Console.ReadLine();
         }
 
-        return Input;
+        return input;
     }
 }
 

@@ -13,16 +13,16 @@ internal class TableVisualisationEngine
             .ExportAndWriteLine();
     }
 
-    internal void Add(List<ContactClass> List)
+    internal void Add(List<ContactClass> list)
     {
-        foreach (ContactClass Entity in List)
+        foreach (ContactClass entity in list)
         {
             TableData.Add(
                 new List<object>
                 {
-                    Entity.Id,
-                    Entity.Name,
-                    Entity.PhoneNumber
+                    entity.Id,
+                    entity.Name,
+                    entity.PhoneNumber
                 }
                 );
         }
