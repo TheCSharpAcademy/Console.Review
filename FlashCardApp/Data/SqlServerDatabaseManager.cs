@@ -5,7 +5,7 @@ using FlashCardApp.Models;
 
 namespace FlashCardApp.Data;
 
-public class DatabaseManager
+public class SqlServerDatabaseManager : IDatabaseManager
 {
     private string _connectionString = ConfigurationManager.AppSettings.Get("connectionString")!;
 
