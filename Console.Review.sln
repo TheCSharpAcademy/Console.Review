@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console.Review", "Console.Review.csproj", "{CBC201DD-732C-4196-9047-2206FB3AB79B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "drinks-info-console", "drinks-info-console.csproj", "{774D9C95-4416-4D1B-8878-062AE4751718}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +15,10 @@ Global
 		{CBC201DD-732C-4196-9047-2206FB3AB79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBC201DD-732C-4196-9047-2206FB3AB79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBC201DD-732C-4196-9047-2206FB3AB79B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{774D9C95-4416-4D1B-8878-062AE4751718}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{774D9C95-4416-4D1B-8878-062AE4751718}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{774D9C95-4416-4D1B-8878-062AE4751718}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{774D9C95-4416-4D1B-8878-062AE4751718}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
