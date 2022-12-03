@@ -73,14 +73,14 @@ namespace PhoneBookApp
                 contactName = Console.ReadLine();
             }
 
-            Console.WriteLine("\nPhone Number or 0 to return to Menu:");
+            Console.WriteLine("\nPhone Number (format: xxx-xxx-xxxx) or 0 to return to Menu:");
             string contactNumber = Console.ReadLine();
 
             if (contactNumber == "0") { phoneBookAppController.CreateContact(); }
 
             while (!Validation.IsPhoneNumberValid(contactNumber))
             {
-                Console.WriteLine("\nPlease input a valid Contact Number:");
+                Console.WriteLine("\nPlease input a valid Contact Number (format: xxx-xxx-xxxx):");
                 contactNumber = Console.ReadLine();
             }
 
@@ -187,7 +187,7 @@ namespace PhoneBookApp
                 }
             }
 
-            Console.WriteLine("\nEnter update to Phone Number or 0 to return to Menu (Press Enter to use current Phone Number):");
+            Console.WriteLine("\nEnter update to Phone Number (format: xxx-xxx-xxxx) or 0 to return to Menu (Press Enter to use current Phone Number):");
             string contactNumber = Console.ReadLine();
 
             if (contactNumber == "0") { phoneBookAppController.EditContact(); }
@@ -200,7 +200,7 @@ namespace PhoneBookApp
 
             while (!Validation.IsPhoneNumberValid(contactNumber))
             {
-                Console.WriteLine("\nPlease input a valid Contact Number:");
+                Console.WriteLine("\nPlease input a valid Contact Number (format: xxx-xxx-xxxx):");
                 contactNumber = Console.ReadLine();
 
                 if (contactNumber == "0") { phoneBookAppController.EditContact(); }
