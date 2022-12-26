@@ -1,10 +1,7 @@
-﻿
-
-using ConsoleTables;
+﻿using ConsoleTables;
 using DrinksInfo.Models;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 using HttpClient client = new();
 client.DefaultRequestHeaders.Accept.Clear();
@@ -12,31 +9,33 @@ client.DefaultRequestHeaders.Accept.Add(
     new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
 client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
 
-var categories = await GetDrinksCategories(client);
-Console.WriteLine("Welcome, please choose one of the following categories: \n");
+bool continueFlag = true;
+while (continueFlag)
+{
+    var categories = await GetDrinksCategories(client);
+    Console.WriteLine("Welcome, please choose one of the following categories: \n");
 
-WriteCategoryMenu(categories);
+    WriteCategoryMenu(categories);
 
-Console.WriteLine("Chosen Category:\n");
-var chosenCat = Console.ReadLine();
+    Console.WriteLine("Chosen Category:\n");
+    var chosenCat = Console.ReadLine();
 
-var drinks =
-    await GetDrinks(client, chosenCat);
-    
-Console.Clear();
-WriteDrinksMenu(drinks);
+    var drinks =
+        await GetDrinks(client, chosenCat);
 
-Console.WriteLine("Chosen Drink:");
-var chosenDrink = GetChosenDrink();
+    Console.Clear();
+    WriteDrinksMenu(drinks);
 
+    Console.WriteLine("Chosen Drink:");
+    var chosenDrink = GetChosenDrink(drinks);
 
-var drinkInfo = await GetDrinkInfo(client, chosenDrink);
-Console.Clear();
-WriteDrinkInfo(drinkInfo);
+    var drinkInfo = await GetDrinkInfo(client, chosenDrink);
+    Console.Clear();
+    WriteDrinkInfo(drinkInfo);
 
-
-
-
+    continueFlag = Continue();
+    Console.Clear();
+}
 
 static async Task<Categories> GetDrinksCategories(HttpClient client)
 {
@@ -111,7 +110,7 @@ void WriteDrinkInfo(Drink drinkInfo)
     table.Write(Format.Alternative);
 }
 
-string GetChosenDrink()
+string GetChosenDrink(Drinks drinks)
 {
     var chosenDrink = Console.ReadLine();
     foreach (var json in drinks.drinks)
@@ -125,7 +124,7 @@ string GetChosenDrink()
     ClearCurrentConsoleLine();
     Console.SetCursorPosition(0, Console.CursorTop - 1);
     Console.WriteLine(chosenDrink + " can't be found, try again:");
-    return GetChosenDrink();
+    return GetChosenDrink(drinks);
 }
 
 static void ClearCurrentConsoleLine()
@@ -135,4 +134,27 @@ static void ClearCurrentConsoleLine()
     for (int i = 0; i < Console.WindowWidth; i++)
         Console.Write(" ");
     Console.SetCursorPosition(0, currentLineCursor);
+}
+
+bool Continue()
+{
+    Console.WriteLine("Continue? y/n");
+    var res = Console.ReadLine();
+
+    if (res == "y")
+    {
+        return true;
+    }
+    else if (res == "n")
+    {
+        return false;
+    }
+    else
+    {
+        Console.SetCursorPosition(0, Console.CursorTop - 1);
+        ClearCurrentConsoleLine();
+        Console.SetCursorPosition(0, Console.CursorTop - 1);
+        Console.WriteLine("There was a error, try again");
+        return Continue();
+    }
 }
