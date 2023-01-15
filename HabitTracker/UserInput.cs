@@ -6,6 +6,7 @@ internal static class UserInput
     {
         Console.Write("\nWhat date are you adding for? (yyyy-mm-dd): ");
         string input = Console.ReadLine();
+
         while (!Validator.IsValidDateInput(input))
         {
             Console.Write("This is not a valid date, please use the format 'yyyy-mm-dd'");
@@ -18,6 +19,7 @@ internal static class UserInput
     {
         Console.Write($"\nHow many {measurement} did you do? ");
         string input = Console.ReadLine();
+
         while (!Validator.IsPositiveIntInput(input))
         {
             Console.Write("This is not a valid quantity, please enter a number: ");
@@ -29,16 +31,18 @@ internal static class UserInput
     public static int GetHabitId()
     {
         string input = string.Empty;
-
         string listOfHabits = "\n";
         List<Habit> validHabits = DataAccessor.GetHabits();
+
         foreach (Habit habit in validHabits)
         {
             listOfHabits += $"{habit.GetString()}\n";
         }
+
         Console.WriteLine(listOfHabits);
         List<int> validHabitIds = validHabits.Select(h => h.Id).ToList();
         Console.Write("\nEnter the number corresponding to the habit this entry is for: ");
+
         while (true)
         {
             int result;
@@ -57,6 +61,7 @@ internal static class UserInput
     {
         Console.Write("\nWhat is the measurement of your habit? ");
         string input = Console.ReadLine();
+
         while (Validator.IsNonEmptyNonFullString(input))
         {
             Console.Write("Habit measurement should not be empty or more than 255 characters. Try again: ");
@@ -69,6 +74,7 @@ internal static class UserInput
     {
         Console.Write("\nWhat is the name of your habit? ");
         string input = Console.ReadLine();
+
         while (Validator.IsNonEmptyNonFullString(input))
         {
             Console.Write("Habit name should not be empty or more than 255 characters. Try a new name: ");
@@ -80,9 +86,9 @@ internal static class UserInput
     public static int GetIdForRemoval()
     {
         Console.Write("\nWhich entry do you want to remove? ");
-        DataAccessor dal = new DataAccessor();
-
+        DataAccessor dal = new();
         List<int> validIds = DataAccessor.GetEntries().Select(o => o.Id).ToList();
+
         while (true)
         {
             if (Int32.TryParse(Console.ReadLine(), out int result))
@@ -94,14 +100,14 @@ internal static class UserInput
             }
             Console.Write("This is not a valid id, please enter a number: ");
         }
-
     }
 
     public static int GetIdForUpdate()
     {
         Console.Write("\nWhich entry do you want to update? ");
-        DataAccessor dal = new DataAccessor();
+        DataAccessor dal = new();
         List<int> validIds = DataAccessor.GetEntries().Select(o => o.Id).ToList();
+
         while (true)
         {
             if (Int32.TryParse(Console.ReadLine(), out int result))
@@ -113,7 +119,6 @@ internal static class UserInput
             }
             Console.Write("This is not a valid id, please enter a number: ");
         }
-
     }
 
     public static string GetUserOption()
